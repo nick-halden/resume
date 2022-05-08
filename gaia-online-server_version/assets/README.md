@@ -1,0 +1,1 @@
+This is the folder in which we store Assets, the graphics of our game

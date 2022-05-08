@@ -1,0 +1,286 @@
+#:kivy 1.11.1
+#: import c constants
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+
+
+
+# Here the Windows start
+
+WindowManager:
+    transition: NoTransition()
+    LoginScreen:
+    WaitingScreen:
+    SetupScreen:
+    GameScreen:
+
+
+<LoginScreen>:
+    name: 'login'
+    ip: ip
+    input_players: input_players
+    on_enter:
+        self.load_config()
+    canvas.before:
+        Color:
+            rgb: 0,0,0
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    RelativeLayout:
+        size: root.width, root.height
+        Image:
+            source: f'{c.ASSETS_PATH_SERVER}/StartSplash.jpg'
+            allow_stretch: True
+            keep_ratio: True
+            size_hint:(None, None)
+            size: (root.width, (2518/3065) * root.width)
+            pos_hint: {'center_x': 0.5, 'top': 1}
+        GridLayout:
+            canvas.before:
+                Color:
+                    rgba: 0.1,0.1,0.1,0.85
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            size_hint_max_x: 380
+            size_hint_max_y: 130
+            row_default_height: 30
+            row_force_default: True
+            spacing: [10, 10]
+            padding: [0, 10]
+            cols: 1
+            pos_hint: {'center_x': 0.5, 'y': 0.1} 
+
+            GridLayout:  # Row 3.
+                cols: 2
+                Label:
+                    size_hint_max_x: 180
+                    text: 'IP-Adresse des Servers:'
+                TextInput:
+                    id: ip
+                    size_hint_max_x: 180
+                    multiline: False
+                    write_tab: False                      
+
+            GridLayout:  # Row 4.
+                id: grid1
+                cols: 2
+                Label:
+                    size_hint_max_x: 180
+                    text: 'Anzahl Spieler:innen (2-4):'
+                    id: player_count
+                TextInput:
+                    id: input_players
+                    size_hint_max_x: 180
+                    multiline: False
+                    write_tab: False
+                    on_text_validate:
+                        root.enter_login()
+                
+
+            RelativeLayout:  # Row 5.
+                GridLayout:
+                    rows: 1
+                    size_hint_max_x: 400
+                    pos_hint:{'center_x': 0.5, 'top': 1, 'bottom':1}
+                    col_default_width: 160
+                    spacing: 10
+                    padding: [5,0]
+                    Button:
+                        text: 'Spielserver starten'
+                        on_press:                         
+                            root.enter_login()  # Save IPs etc. if button gets pressed.
+                    Button:
+                        text: 'Spiel fortsetzen'
+                        on_press:                         
+                            root.enter_login(True)  # Save IPs etc. if button gets pressed.   
+
+<WaitingScreen>:
+    name:'waiting'
+    RelativeLayout:
+        size: root.size
+        pos: (0,0)
+        canvas.before:
+            Color:
+                hsv: (2/3), 0.96, 0.098
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Image:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            source: f'{c.ASSETS_PATH_SERVER}/galaxy_bg.png'
+            size_hint: (None, None)
+            size: (2004, 1536)
+        
+        Label:
+            id: main_text
+            text: 'Empfange Daten der Mitspieler\n'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+            size_hint: (1, None)
+            height: 80
+            markup: True
+            bold: True
+            font_size: 18
+            halign: 'center'
+        StackLayout:                    
+            id: list_players
+            orientation: 'tb-lr'
+            size_hint: (None, None)
+            size: (200, 100)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+            spacing: 0
+            padding: 0                                                  
+
+<SetupScreen>:
+    name: 'setup'
+    sector_pos: sector_pos
+    sector_rot: sector_rot
+    RelativeLayout:
+        size: root.size
+        pos: (0,0)
+        canvas.before:
+            Color:
+                hsv: (2/3), 0.96, 0.098
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Image:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            source: f'{c.ASSETS_PATH_SERVER}/galaxy_bg.png'
+            size_hint: (None, None)
+            size: (2004, 1536)
+        GridLayout:
+            cols: 1            
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            size_hint: (None, None)            
+            size: (400, 370)
+            GridLayout:
+                cols: 2
+                id: top_grid
+                size_hint: (None, None)
+                size: (400, 120)
+                row_default_height: 30
+                row_force_default: True
+                spacing:[0,10]   
+                Label:
+                    text: 'Modify the setup values'
+                Label:
+                    text: 'Save values by pressing enter'
+                Label:
+                    text: 'Current Setup:'
+                Label:
+                    id:setup_phase
+                    text:'Map'
+                Label:
+                    text:''
+                Button:
+                    id: next_phase_btn
+                    text: 'Next Setup'
+                    on_release:
+                        root.finish_phase()
+
+            GridLayout:
+                id: setup_grid
+                cols: 2
+                size_hint: (None, None)
+                size: (400, 250)
+                row_default_height: 30
+                row_force_default: True
+                spacing:[0,10]            
+                Label:
+                    text:'Sector Pos'
+                TextInput:
+                    id: sector_pos
+                    size_hint_max_x: 280
+                    multiline: False
+                    write_tab: False
+                    on_text_validate: 
+                        root.map_setup_change()           
+                Label:
+                    text:'Sector Rot'
+                TextInput:
+                    id: sector_rot
+                    size_hint_max_x: 280
+                    multiline: False
+                    write_tab: False
+                    on_text_validate: 
+                        root.map_setup_change()
+                          
+<GameScreen>:
+    name:'game'
+    RelativeLayout:
+        size: root.size
+        pos: (0,0)
+        canvas.before:
+            Color:
+                hsv: (2/3), 0.96, 0.098
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Image:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            source: f'{c.ASSETS_PATH_SERVER}/galaxy_bg.png'
+            size_hint: (None, None)
+            size: (2004, 1536)
+        GridLayout:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            size:(600, 400)
+            size_hint: (None, None)
+            cols: 1
+            GridLayout:
+                rows: 1
+                size_hint: (None, None)
+                size:(400, 30)
+                Label:
+                    text: 'Round:'
+                TextInput:
+                    id: round_input
+                    size_hint_max_x: 60
+                    multiline: False
+                    write_tab: False
+                    on_text_validate: 
+                        root.top_values_changed
+                Label:
+                    text: 'player at turn:'
+                TextInput:
+                    id: plat_input
+                    size_hint_max_x: 60
+                    multiline: False
+                    write_tab: False
+                    on_text_validate:
+                        root.top_values_changed
+            Button:
+                id: import_btn
+                text: 'Import Game State'
+                size_hint_max_x: 200
+                size_hint_max_y: 40
+                on_release:
+                    root.show_load()
+            Button:
+                id: export_btn
+                text: 'Export Game State'
+                size_hint_max_x: 200
+                size_hint_max_y: 40
+                on_release:
+                    root.export_game_state()
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        FileChooserListView:
+            id: filechooser
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: 'Cancel'
+                on_release: root.cancel()
+
+            Button:
+                text: 'Load'
+                on_release: root.load(filechooser.path, filechooser.selection)

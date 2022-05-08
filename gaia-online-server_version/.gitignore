@@ -1,0 +1,9 @@
+**/.vscode/
+**/__pycache__/
+**/config
+**/server_config
+**/*.json
+/dist/
+/build/
+!build/*.spec
+!build/*.iss
