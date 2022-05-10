@@ -1,5 +1,5 @@
 # Resume
-A small resume to supplement the application for the internship in the field of "Semantic Music Technologies" at the Fraunhofer-Institut für Digitale Medientechnologie IDMT in Ilmenau.
+A small resume to supplement the application for an internship at the Fraunhofer-Institut.
 
 
 
