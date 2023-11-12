@@ -20,7 +20,7 @@ Gaia Project is a multiplayer Boardgame by Helge Ostertag and Jens Drögemüller
 
 Each player takes over one of 14 races and colonizes the planets of a galaxy by building various buildings on them. These are upgraded into different types as the game progresses. This allows access to more resources and actions. Six research areas are available to advance the expansion in the galaxy faster and more efficiently than the other players.
 
-The different races with different abilities, changing game and victory point conditions, and a variable playing field offer countless combinations that make Gaia Project exceedingly changeable and permanently exciting.'/home/johann/anaconda3/bin/python -m pip install --upgrade pip' command.
+The different races with different abilities, changing game and victory point conditions, and a variable playing field offer countless combinations that make Gaia Project exceedingly changeable and permanently exciting.
 
 ### Installation
 
