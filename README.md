@@ -1,8 +1,3 @@
-# Resume
-A small resume to supplement the application for an internship at the Fraunhofer-Institut.
-
-
-
 ## Convolutional Neural Networks
 
 In this project I have used CNNs for image classification on the famous (Fashion) MNIST dataset and in an autoencoder framework for image noise reduction on the same dataset.
